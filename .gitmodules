@@ -1,3 +1,7 @@
 [submodule "prod-intra-brin"]
 	path = prod-intra-brin
 	url = https://github.com/koharudin/prod-intra-brin.git
+
+[submodule "intra-next"]
+	path = intra-next
+	url = https://github.com/koharudin/intra-next.git
