@@ -14,15 +14,51 @@ services:
       - ./prod-intra-brin/public:/var/www/html
     ports:
       - 91:80
+  mock_sso:
+    build:
+      context: .
+      dockerfile : Dockerfile-sso-mock
+    tty : true
+    environment:
+      - BASE_URL=http://localhost:81
+    volumes:
+      - ./sso-mock:/var/www
+      #- ./sso-mock/public:/var/www/html
+    ports:
+      - 92:80
   next-intra:
     build:
       context: .
       dockerfile : Dockerfile-next-intra
     tty : true
-    command : "npm run dev"
     environment:
       - BASE_URL=http://localhost:81
     volumes:
       - ./intra-next:/app
+      #- /app/node_modules
     ports:
       - 81:3000    
+  vristo-main:
+    build:
+      context: .
+      dockerfile : Dockerfile-dev-vristo-next-main
+    tty : true
+    environment:
+      - BASE_URL=http://localhost:81
+    volumes:
+      - ./vristo-next-main:/app
+      #- /app/node_modules
+    ports:
+      - 82:3000    
+  vristo-starter:
+    build:
+      context: .
+      dockerfile : Dockerfile-dev-vristo-next-starter
+    tty : true
+    environment:
+      - BASE_URL=http://localhost:81
+    volumes:
+      - ./vristo-next-starter:/app
+      #- /app/node_modules
+    ports:
+      - 83:3000    

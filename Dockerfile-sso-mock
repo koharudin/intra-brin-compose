@@ -1,0 +1,39 @@
+
+FROM php:8.1-apache
+
+# Update sistem
+RUN apt-get update
+
+RUN a2enmod headers
+
+
+# Install Postgre PDO
+RUN apt-get install -y --no-install-recommends libpq-dev \
+    && docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Git
+RUN apt-get update \
+    && apt-get install -y git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Ensure Apache is using the proper configuration
+RUN service apache2 restart
+# Ganti pengguna ke www-data
+USER root
+
+# Direktori kerja default
+WORKDIR /var/www
+
+# Expose port 80 untuk Apache
+EXPOSE 80
+
+# Perintah default untuk Apache
+CMD ["apache2-foreground"]

@@ -5,3 +5,6 @@
 [submodule "intra-next"]
 	path = intra-next
 	url = https://github.com/koharudin/intra-next.git
+[submodule "vristo-next-main"]
+	path = vristo-next-main
+	url = https://github.com/koharudin/vristo-next-main.git
